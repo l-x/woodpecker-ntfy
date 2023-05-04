@@ -5,6 +5,7 @@ pipeline:
     lint-pipeline:
         image: *golang_image
         commands:
+            - go get github.com/woodpecker-ci/woodpecker/cmd/cli
             - go run github.com/woodpecker-ci/woodpecker/cmd/cli lint
     test:
         image: *golang_image
