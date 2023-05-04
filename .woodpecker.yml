@@ -2,6 +2,14 @@ variables:
     - &golang_image 'golang:1.20.2'
 
 pipeline:
+    notify:
+        image: forge.pnyhf.eu/l-x/woodpecker-ntfy:latest
+        settings:
+            url: https://push.pnyhf.eu
+            topic: woodpecker-ntfy
+            token:
+                from-secret: ntfy_token
+            
     test:
         image: *golang_image
         group: test
