@@ -1,0 +1,27 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+dockers:
+  - image_templates:
+      #- "codeberg.org/l-x/woodpecker-ntfy:{{ .Tag }}"
+      #- "codeberg.org/l-x/woodpecker-ntfy:{{ .Major }}"
+      #- "codeberg.org/l-x/woodpecker-ntfy:latest"
+      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Tag }}"
+      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Major }}"
+      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:latest"
+  - build_flag_templates:
+    - "--pull"
+    - "--label=org.opencontainers.image.created={{.Date}}"
+    - "--label=org.opencontainers.image.title={{.ProjectName}}"
+    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+    - "--label=org.opencontainers.image.version={{.Version}}"
+    - "--platform=linux/arm64"
