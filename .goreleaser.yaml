@@ -11,14 +11,12 @@ builds:
     goarch:
       - amd64
 dockers:
-  - image_templates:
-      #- "codeberg.org/l-x/woodpecker-ntfy:{{ .Tag }}"
-      #- "codeberg.org/l-x/woodpecker-ntfy:{{ .Major }}"
-      #- "codeberg.org/l-x/woodpecker-ntfy:latest"
+  - skip_push: auto
+    image_templates:
       - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Tag }}"
       - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Major }}"
       - "forge.pnyhf.eu/l-x/woodpecker-ntfy:latest"
-  - build_flag_templates:
+    build_flag_templates:
     - "--pull"
     - "--label=org.opencontainers.image.created={{.Date}}"
     - "--label=org.opencontainers.image.title={{.ProjectName}}"
