@@ -74,10 +74,6 @@ func getAuth() string {
 		return fmt.Sprintf("Bearer %s", token)
 	}
 
-	if user := getEnv("PLUGIN_USER", ""); user != "" {
-		return fmt.Sprintf("Basic %s", user)
-	}
-
 	return ""
 }
 

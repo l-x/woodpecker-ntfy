@@ -8,7 +8,7 @@ pipeline:
             url: https://push.pnyhf.eu
             topic: woodpecker-ntfy
             token:
-                from-secret: ntfy_token
+                from_secret: ntfy_token
             
     test:
         image: *golang_image
