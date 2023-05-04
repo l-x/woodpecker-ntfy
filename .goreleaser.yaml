@@ -23,3 +23,9 @@ dockers:
     - "--label=org.opencontainers.image.revision={{.FullCommit}}"
     - "--label=org.opencontainers.image.version={{.Version}}"
     - "--platform=linux/arm64"
+gitea_urls:
+  api: https://forge.pnyhf.eu/api/v1
+  download: https://forge.pnyhf.eu
+env_files:
+  gitea_token: .forgejo_token
+
