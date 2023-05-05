@@ -1,8 +1,10 @@
+[![status-badge](https://ci.codeberg.org/api/badges/l-x/woodpecker-ntfy/status.svg)](https://ci.codeberg.org/l-x/woodpecker-ntfy)
+
 # woodpecker-ntfy
 
 A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
-# Configuration
+## Configuration
 
 | Name       | Description                                                    | Default                           |
 | ---------- | -------------------------------------------------------------- | --------------------------------- |
@@ -16,7 +18,7 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `tags`     | Tags and Emojis [^tags-emojis]                                 | none                              |
 | `message`  | Notification Body                                              | none                              |
 
-# Example
+## Example
 
 ```yaml
 pipeline:
@@ -24,22 +26,14 @@ pipeline:
         image: codeberg.org/l-x/woodpecker-ntfy
         settings:
             url: https://custom.ntfy.instance/topic-to-notify
-
             token:
                 from_secret: your-super-secret-ntfy-access-token
-
             title: notification title
-
             priority: urgent
-
             actions: "view, Open portal, https://home.nest.com/, clear=true; http, Turn down, https://api.nest.com/, body='{\"temperature\": 65}'"
-
             click: https://where.to.go
-
             icon: https://woodpecker-ci.org/img/logo.svg
-
             tags: robot,${CI_BUILD_EVENT},${CI_REPO_NAME}
-
             message: >
                 📝 Commit by ${CI_COMMIT_AUTHOR} on ${CI_COMMIT_BRANCH}:
 
