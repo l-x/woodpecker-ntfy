@@ -3,4 +3,5 @@ pipeline:
         image: golang:1.20.2
         group: test
         commands:
+            - go build
             - go test
