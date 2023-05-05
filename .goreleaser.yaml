@@ -13,9 +13,9 @@ builds:
 dockers:
   - skip_push: auto
     image_templates:
-      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Tag }}"
-      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:{{ .Major }}"
-      - "forge.pnyhf.eu/l-x/woodpecker-ntfy:latest"
+      - "codeberg.org/l-x/woodpecker-ntfy:{{ .Tag }}"
+      - "codeberg.org/l-x/woodpecker-ntfy:{{ .Major }}"
+      - "codeberg.org/l-x/woodpecker-ntfy:latest"
     build_flag_templates:
     - "--pull"
     - "--label=org.opencontainers.image.created={{.Date}}"
@@ -24,7 +24,7 @@ dockers:
     - "--label=org.opencontainers.image.version={{.Version}}"
     - "--platform=linux/arm64"
 gitea_urls:
-  api: https://forge.pnyhf.eu/api/v1
-  download: https://forge.pnyhf.eu
+  api: https://codeberg.org/api/v1
+  download: https://codeberg.org
 env_files:
   gitea_token: .forgejo_token
