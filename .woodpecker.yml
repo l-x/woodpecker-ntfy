@@ -8,11 +8,9 @@ pipeline:
     ntfy:
         image: forge.pnyhf.eu/l-x/woodpecker-ntfy
         settings:
-            url: https://ntfy.sh/woodpecker-ntfy
-            tags: ${CI_BUILD_EVENT},${CI_REPO_NAME},${CI_BUILD_STATUS}
-            title: Build ${CI_BUILD_EVENT} of `${CI_REPO_NAME}` has status `${CI_BUILD_STATUS}`.
+            tags: robot,${CI_BUILD_EVENT},${CI_REPO_NAME}
             message: >
-                📝 Commit by ${CI_COMMIT_AUTHOR} on `${CI_COMMIT_BRANCH}`:
+                📝 Commit by ${CI_COMMIT_AUTHOR} on ${CI_COMMIT_BRANCH}:
 
-                `${CI_COMMIT_MESSAGE}`
+                ${CI_COMMIT_MESSAGE}
             click: ${CI_BUILD_LINK}

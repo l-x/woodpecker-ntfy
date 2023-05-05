@@ -10,7 +10,6 @@ import (
 )
 
 const defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
-var defaultIconFn = func() string { return "https://woodpecker-ci.org/img/logo.svg" }
 
 type header struct {
 	name         string
@@ -39,7 +38,7 @@ var headers = []header{
 	{name: "Tags", valueFn: env("PLUGIN_TAGS")},
 	{name: "Actions", valueFn: env("PLUGIN_ACTIONS")},
 	{name: "Click", valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
-	{name: "Icon", valueFn: env("PLUGIN_ICON"), fallbackFn: defaultIconFn},
+	{name: "Icon", valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
 }
 
 func env(key string) func() string {
