@@ -6,7 +6,8 @@ pipeline:
         group: test
         commands:
             - go build
-            - go test
+            - go test -coverprofile cover.out -v
+            - go tool cover -func cover.out
     ntfy:
         image: codeberg.org/l-x/woodpecker-ntfy:latest
         pull: true

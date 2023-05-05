@@ -11,34 +11,35 @@ import (
 
 const defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
 
-type header struct {
-	name         string
-	valueFn      func() string
-	fallbackFn   func() string
-	includeEmpty bool
+var (
+	server = setting{
+		valueFn:    env("PLUGIN_URL"),
+		fallbackFn: func() string { return defaultNtfyUrl }}
+	message = setting{valueFn: env("PLUGIN_MESSAGE")}
+	headers = map[string]setting{
+		"Authorization": {valueFn: getAuth},
+		"Title":         {valueFn: env("PLUGIN_TITLE")},
+		"Priority":      {valueFn: env("PLUGIN_PRIORITY")},
+		"Tags":          {valueFn: env("PLUGIN_TAGS")},
+		"Actions":       {valueFn: env("PLUGIN_ACTIONS")},
+		"Click":         {valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
+		"Icon":          {valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
+	}
+)
+
+type setting struct {
+	valueFn    func() string
+	fallbackFn func() string
 }
 
-func (h *header) add(r *http.Header) {
+func (h *setting) getValue() string {
 	value := h.valueFn()
+
 	if value == "" && h.fallbackFn != nil {
-		value = h.fallbackFn()
+		return h.fallbackFn()
 	}
 
-	if value == "" && !h.includeEmpty {
-		return
-	}
-
-	r.Add(h.name, value)
-}
-
-var headers = []header{
-	{name: "Authorization", valueFn: getAuth},
-	{name: "Title", valueFn: env("PLUGIN_TITLE")},
-	{name: "Priority", valueFn: env("PLUGIN_PRIORITY")},
-	{name: "Tags", valueFn: env("PLUGIN_TAGS")},
-	{name: "Actions", valueFn: env("PLUGIN_ACTIONS")},
-	{name: "Click", valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
-	{name: "Icon", valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
+	return value
 }
 
 func env(key string) func() string {
@@ -47,58 +48,59 @@ func env(key string) func() string {
 	}
 }
 
-func getEnv(key, def string) string {
-	if v, ok := os.LookupEnv(key); ok {
-		return v
-	}
-
-	return def
-}
-
 func getAuth() string {
-	if token := getEnv("PLUGIN_TOKEN", ""); token != "" {
+	if token := os.Getenv("PLUGIN_TOKEN"); token != "" {
 		return fmt.Sprintf("Bearer %s", token)
 	}
 
 	return ""
 }
 
-func checkErr(err error) {
-	if err == nil {
-		return
+func createRequest() (*http.Request, error) {
+	req, err := http.NewRequest(
+		"PUT",
+		server.getValue(),
+		strings.NewReader(message.getValue()),
+	)
+	if err != nil {
+		return req, err
 	}
 
-	if getEnv("PLUGIN_FAIL_ON_ERROR", "") == "" {
-		log.Println(err)
-	} else {
-		log.Fatalln(err)
+	for k, v := range headers {
+		req.Header.Set(k, v.getValue())
 	}
+
+	return req, nil
 }
 
-func main() {
-	req, err := http.NewRequest(
-		"POST",
-		getEnv("PLUGIN_URL", defaultNtfyUrl),
-		strings.NewReader(getEnv("PLUGIN_MESSAGE", "")),
-	)
-
-	checkErr(err)
-
-	for _, h := range headers {
-		h.add(&req.Header)
+func notify() error {
+	req, err := createRequest()
+	if err != nil {
+		return err
 	}
 
 	res, err := http.DefaultClient.Do(req)
-	checkErr(err)
-
+	if err != nil {
+		return err
+	}
 	defer res.Body.Close()
 
 	b, err := io.ReadAll(res.Body)
-	checkErr(err)
+	if err != nil {
+		return err
+	}
 
 	if res.StatusCode != http.StatusOK {
-		checkErr(fmt.Errorf("%s %s", res.Status, b))
+		return fmt.Errorf("%s %s", res.Status, b)
 	}
 
 	log.Printf("%s %s", res.Status, b)
+
+	return nil
+}
+
+func main() {
+	if err := notify(); err != nil {
+		log.Fatal(err)
+	}
 }
