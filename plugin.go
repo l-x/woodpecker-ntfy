@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -25,6 +24,7 @@ var (
 		"Click":         {valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
 		"Icon":          {valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
 	}
+	failOnError = setting{valueFn: env("PLUGIN_FAIL_ON_ERROR")}
 )
 
 type setting struct {
@@ -61,7 +61,7 @@ func checkErr(err error) {
 		return
 	}
 
-	if os.Getenv("PLUGIN_FAIL_ON_ERROR") == "" {
+	if failOnError.getValue() == "" {
 		log.Println(err)
 	} else {
 		log.Fatalln(err)
@@ -83,17 +83,4 @@ func createRequest() (*http.Request, error) {
 	}
 
 	return req, nil
-}
-
-func handleResponse(r *http.Response) {
-	defer r.Body.Close()
-
-	b, err := io.ReadAll(r.Body)
-	checkErr(err)
-
-	if r.StatusCode != http.StatusOK {
-		checkErr(fmt.Errorf("%s %s", r.Status, b))
-	}
-
-	log.Printf("%s %s", r.Status, b)
 }
