@@ -77,11 +77,23 @@ func getAuth() string {
 	return ""
 }
 
-func main() {
-	serverUrl, err := getServerUrl(defaultNtfyServer)
-	if err != nil {
-		log.Fatalln(err)
+func checkErr(err error) {
+	if err == nil {
+		return
 	}
+
+	log.Fatalln(err)
+}
+
+func main() {
+	for _, e := range os.Environ() {
+		if strings.HasPrefix(e, "CI_") || strings.HasPrefix(e, "WOODPECKER_") {
+			fmt.Println(e)
+		}
+	}
+
+	serverUrl, err := getServerUrl(defaultNtfyServer)
+	checkErr(err)
 
 	req, err := http.NewRequest(
 		"POST",
@@ -89,25 +101,23 @@ func main() {
 		strings.NewReader(getEnv("PLUGIN_MESSAGE", "")),
 	)
 
-	if err != nil {
-		log.Fatalln(err)
-	}
+	checkErr(err)
 
 	for _, h := range headers {
 		h.add(&req.Header)
 	}
 
 	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	checkErr(err)
 	
 	defer res.Body.Close()
 
 	b, err := io.ReadAll(res.Body)
-	if err != nil {
-		log.Fatalln(err)
+	checkErr(err)
+
+	if res.StatusCode != http.StatusOK {
+		checkErr(fmt.Errorf("%s %s", res.Status, b))
 	}
-	
-	log.Printf(" <= %s", b)
+
+	log.Printf("%s %s", res.Status, b)
 }
