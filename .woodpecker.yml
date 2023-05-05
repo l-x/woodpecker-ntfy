@@ -6,7 +6,8 @@ pipeline:
             - go build
             - go test
     ntfy:
-        image: forge.pnyhf.eu/l-x/woodpecker-ntfy
+        image: codeberg.org/l-x/woodpecker-ntfy:latest
+        pull: true
         settings:
             tags: robot,${CI_BUILD_EVENT},${CI_REPO_NAME}
             message: >
