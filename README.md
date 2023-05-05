@@ -4,7 +4,7 @@
 
 A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
-# Configuration
+## Configuration
 
 | Name       | Description                                                    | Default                           |
 | ---------- | -------------------------------------------------------------- | --------------------------------- |
@@ -18,7 +18,7 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `tags`     | Tags and Emojis [^tags-emojis]                                 | none                              |
 | `message`  | Notification Body                                              | none                              |
 
-# Example
+## Example
 
 ```yaml
 pipeline:
