@@ -28,4 +28,3 @@ gitea_urls:
   download: https://forge.pnyhf.eu
 env_files:
   gitea_token: .forgejo_token
-

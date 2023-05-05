@@ -1,13 +1,6 @@
-variables:
-    - &golang_image 'golang:1.20.2'
-
 pipeline:
-    notify:
-        image: forge.pnyhf.eu/l-x/woodpecker-ntfy:latest
-        pull: true
-        message: "Test One Two..."            
     test:
-        image: *golang_image
+        image: golang:1.20.2
         group: test
         commands:
             - go test
