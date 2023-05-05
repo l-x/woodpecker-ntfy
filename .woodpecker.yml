@@ -4,6 +4,7 @@ variables:
 pipeline:
     notify:
         image: forge.pnyhf.eu/l-x/woodpecker-ntfy:latest
+        pull: true
         settings:
             url: https://push.pnyhf.eu
             topic: woodpecker-ntfy
