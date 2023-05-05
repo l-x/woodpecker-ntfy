@@ -1,5 +1,8 @@
+project_name: woodpecker-ntfy
+
 release:
-  disable: true
+  mode: replace
+  name_template: "{{.ProjectName}}-v{{.Version}}"
 before:
   hooks:
     - go mod tidy
