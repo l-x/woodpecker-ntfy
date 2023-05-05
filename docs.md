@@ -1,4 +1,12 @@
-[![status-badge](https://ci.codeberg.org/api/badges/l-x/woodpecker-ntfy/status.svg)](https://ci.codeberg.org/l-x/woodpecker-ntfy)
+---
+name: ntfy
+description: plugin to send notifications to a ntfy.sh instance
+authors: l-x
+tags: [trigger, notify]
+containerImage: codeberg.org/l-x/woodpecker-ntfy
+containerImageUrl: https://codeberg.org/l-x/-/packages/container/woodpecker-ntfy
+url: https://codeberg.org/l-x/woodpecker-ntfy
+---
 
 # woodpecker-ntfy
 
