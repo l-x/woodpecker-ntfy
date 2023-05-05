@@ -10,7 +10,11 @@ import (
 	"strings"
 )
 
-const defaultNtfyServer = "https://ntfy.sh"
+const (
+	defaultNtfyServer = "https://ntfy.sh"
+	defaultNtfyTopic = "woodpecker-ntfy"
+	defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
+)
 
 type header struct {
 	name         string
@@ -38,8 +42,8 @@ var headers = []header{
 	{name: "Priority", valueFn: env("PLUGIN_PRIORITY")},
 	{name: "Tags", valueFn: env("PLUGIN_TAGS")},
 	{name: "Actions", valueFn: env("PLUGIN_ACTIONS")},
-	{name: "Click", valueFn: env("PLUGIN_CLICK")},
-	{name: "Icon", valueFn: env("PLUGIN_ICON")},
+	{name: "Click", valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
+	{name: "Icon", valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
 }
 
 func env(key string) func() string {
@@ -56,19 +60,6 @@ func getEnv(key, def string) string {
 	return def
 }
 
-func getServerUrl(defaultServer string) (*url.URL, error) {
-	u, err := url.Parse(getEnv("PLUGIN_URL", defaultServer))
-	if err != nil {
-		return u, err
-	}
-
-	if topic := getEnv("PLUGIN_TOPIC", ""); topic != "" {
-		return u.JoinPath(topic), nil
-	}
-
-	return u, fmt.Errorf("no topic configured")
-}
-
 func getAuth() string {
 	if token := getEnv("PLUGIN_TOKEN", ""); token != "" {
 		return fmt.Sprintf("Bearer %s", token)
@@ -82,22 +73,17 @@ func checkErr(err error) {
 		return
 	}
 
-	log.Fatalln(err)
+	if getEnv("PLUGIN_FAIL_ON_ERROR", "") == "" {
+		log.Println(err)
+	} else {
+		log.Fatalln(err)
+	}
 }
 
 func main() {
-	for _, e := range os.Environ() {
-		if strings.HasPrefix(e, "CI_") || strings.HasPrefix(e, "WOODPECKER_") {
-			fmt.Println(e)
-		}
-	}
-
-	serverUrl, err := getServerUrl(defaultNtfyServer)
-	checkErr(err)
-
 	req, err := http.NewRequest(
 		"POST",
-		serverUrl.String(),
+		getEnv("PLUGIN_URL", defaultNtfyUrl),
 		strings.NewReader(getEnv("PLUGIN_MESSAGE", "")),
 	)
 

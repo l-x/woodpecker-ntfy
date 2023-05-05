@@ -4,12 +4,8 @@ variables:
 pipeline:
     notify:
         image: forge.pnyhf.eu/l-x/woodpecker-ntfy:latest
-        settings:
-            url: https://push.pnyhf.eu
-            topic: woodpecker-ntfy
-            token:
-                from_secret: ntfy_token
-            
+        pull: true
+        message: "Test One Two..."            
     test:
         image: *golang_image
         group: test
