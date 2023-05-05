@@ -9,11 +9,7 @@ import (
 	"strings"
 )
 
-const (
-	defaultNtfyServer = "https://ntfy.sh"
-	defaultNtfyTopic = "woodpecker-ntfy"
-	defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
-)
+const defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
 
 type header struct {
 	name         string
@@ -94,7 +90,7 @@ func main() {
 
 	res, err := http.DefaultClient.Do(req)
 	checkErr(err)
-	
+
 	defer res.Body.Close()
 
 	b, err := io.ReadAll(res.Body)
