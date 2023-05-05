@@ -6,11 +6,12 @@ pipeline:
             - go build
             - go test
     ntfy:
-        image: forge.pnyhf.eu/l-x/woodpecker-ntfy
+        image: codeberg.org/l-x/woodpecker-ntfy:latest
+        pull: true
         settings:
-            tags: robot,${CI_BUILD_EVENT},${CI_REPO_NAME}
+            tags: robot,memo,${CI_BUILD_EVENT},${CI_REPO_NAME}
             message: >
-                📝 Commit by ${CI_COMMIT_AUTHOR} on ${CI_COMMIT_BRANCH}:
+                Commit by ${CI_COMMIT_AUTHOR} on ${CI_COMMIT_BRANCH}:
 
                 ${CI_COMMIT_MESSAGE}
             click: ${CI_BUILD_LINK}
