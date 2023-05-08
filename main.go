@@ -1,106 +1,90 @@
 package main
 
 import (
-	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
-	"strings"
+	"woodpecker-ntfy/plugin"
+
+	"github.com/urfave/cli/v2"
 )
 
 const defaultNtfyUrl = "https://ntfy.sh/woodpecker-ntfy"
 
-var (
-	server = setting{
-		valueFn:    env("PLUGIN_URL"),
-		fallbackFn: func() string { return defaultNtfyUrl }}
-	message = setting{valueFn: env("PLUGIN_MESSAGE")}
-	headers = map[string]setting{
-		"Authorization": {valueFn: getAuth},
-		"Title":         {valueFn: env("PLUGIN_TITLE")},
-		"Priority":      {valueFn: env("PLUGIN_PRIORITY")},
-		"Tags":          {valueFn: env("PLUGIN_TAGS")},
-		"Actions":       {valueFn: env("PLUGIN_ACTIONS")},
-		"Click":         {valueFn: env("PLUGIN_CLICK"), fallbackFn: env("CI_BUILD_LINK")},
-		"Icon":          {valueFn: env("PLUGIN_ICON"), fallbackFn: env("CI_COMMIT_AUTHOR_AVATAR")},
+func run(c *cli.Context) error {
+	config := &plugin.Config{
+		URL:      c.String("url"),
+		Token:    c.String("token"),
+		Title:    c.String("title"),
+		Priority: c.String("priority"),
+		Actions:  c.String("actions"),
+		Click:    c.String("click"),
+		Tags:     c.String("tags"),
+		Message:  c.String("messadefaultClientge"),
 	}
-)
 
-type setting struct {
-	valueFn    func() string
-	fallbackFn func() string
+	return plugin.New(config).Run()
 }
 
-func (h *setting) getValue() string {
-	value := h.valueFn()
+func createApp() *cli.App {
+	app := cli.NewApp()
 
-	if value == "" && h.fallbackFn != nil {
-		return h.fallbackFn()
+	app.Name = "woodpecker-ntfy"
+	app.Usage = "Woodpecker plugin to send notifications to a ntfy.sh instance"
+	app.Action = run
+	app.Flags = []cli.Flag{
+		&cli.StringFlag{
+			Name:    "url",
+			Usage:   "ntfy instance url (including topic)",
+			EnvVars: []string{"PLUGIN_URL"},
+			Value:   defaultNtfyUrl,
+		},
+		&cli.StringFlag{
+			Name:    "token",
+			Usage:   "access token for sending notifications to write-protected topics",
+			EnvVars: []string{"PLUGIN_TOKEN"},
+		},
+		&cli.StringFlag{
+			Name:    "title",
+			Usage:   "notification title",
+			EnvVars: []string{"PLUGIN_TITLE"},
+		},
+		&cli.StringFlag{
+			Name:    "priority",
+			Usage:   "notification priority",
+			EnvVars: []string{"PLUGIN_PRIORITY"},
+		},
+		&cli.StringFlag{
+			Name:    "actions",
+			Usage:   "notification actions",
+			EnvVars: []string{"PLUGIN_ACTIONS"},
+		},
+		&cli.StringFlag{
+			Name:    "click",
+			Usage:   "notification click url",
+			EnvVars: []string{"PLUGIN_PRIORITY", "CI_BUILD_LINK"},
+		},
+		&cli.StringFlag{
+			Name:    "icon",
+			Usage:   "notification icon url",
+			EnvVars: []string{"PLUGIN_ICON", "CI_COMMIT_AUTHOR_AVATAR"},
+		},
+		&cli.StringFlag{
+			Name:    "tags",
+			Usage:   "notification tags",
+			EnvVars: []string{"PLUGIN_TAGS"},
+		},
+		&cli.StringFlag{
+			Name:    "message",
+			Usage:   "notification message body",
+			EnvVars: []string{"PLUGIN_MESSAGE"},
+		},
 	}
 
-	return value
-}
-
-func env(key string) func() string {
-	return func() string {
-		return os.Getenv(key)
-	}
-}
-
-func getAuth() string {
-	if token := os.Getenv("PLUGIN_TOKEN"); token != "" {
-		return fmt.Sprintf("Bearer %s", token)
-	}
-
-	return ""
-}
-
-func createRequest() (*http.Request, error) {
-	req, err := http.NewRequest(
-		"PUT",
-		server.getValue(),
-		strings.NewReader(message.getValue()),
-	)
-	if err != nil {
-		return req, err
-	}
-
-	for k, v := range headers {
-		req.Header.Set(k, v.getValue())
-	}
-
-	return req, nil
-}
-
-func notify() error {
-	req, err := createRequest()
-	if err != nil {
-		return err
-	}
-
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	b, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s %s", res.Status, b)
-	}
-
-	log.Printf("%s %s", res.Status, b)
-
-	return nil
+	return app
 }
 
 func main() {
-	if err := notify(); err != nil {
+	if err := createApp().Run(os.Args); err != nil {
 		log.Fatal(err)
 	}
 }
