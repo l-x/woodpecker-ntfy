@@ -19,7 +19,7 @@ func run(c *cli.Context) error {
 		Actions:  c.String("actions"),
 		Click:    c.String("click"),
 		Tags:     c.String("tags"),
-		Message:  c.String("messadefaultClientge"),
+		Message:  c.String("message"),
 	}
 
 	return plugin.New(config).Run()
