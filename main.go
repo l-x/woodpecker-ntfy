@@ -61,7 +61,7 @@ func createApp() *cli.App {
 		&cli.StringFlag{
 			Name:    "click",
 			Usage:   "notification click url",
-			EnvVars: []string{"PLUGIN_PRIORITY", "CI_BUILD_LINK"},
+			EnvVars: []string{"PLUGIN_CLICK", "CI_BUILD_LINK"},
 		},
 		&cli.StringFlag{
 			Name:    "icon",
