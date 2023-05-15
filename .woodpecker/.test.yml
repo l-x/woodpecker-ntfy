@@ -7,11 +7,19 @@ pipeline:
     commands:
       - go build
       - go test
-  success:
+  notify success:
     when:
       status: success
     image: codeberg.org/l-x/woodpecker-ntfy
-  failure:
+    settings:
+      url: https://push.pnyhf.eu/woodpecker-ntfy
+      token:
+        from_secret: ntfy
+  notify failure:
     when:
       status: failure
     image: codeberg.org/l-x/woodpecker-ntfy
+    settings:
+      url: https://push.pnyhf.eu/woodpecker-ntfy
+      token:
+        from_secret: ntfy
