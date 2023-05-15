@@ -20,6 +20,7 @@ func run(c *cli.Context) error {
 		Click:    c.String("click"),
 		Tags:     c.String("tags"),
 		Message:  c.String("message"),
+		Debug:    c.Bool("debug"),
 	}
 
 	return plugin.New(config).Run()
@@ -77,6 +78,12 @@ func createApp() *cli.App {
 			Name:    "message",
 			Usage:   "notification message body",
 			EnvVars: []string{"PLUGIN_MESSAGE"},
+		},
+		&cli.BoolFlag{
+			Name:    "debug",
+			Usage:   "output defined environment varialbles - MAY EXPOSE CREDENTIALS!!!",
+			EnvVars: []string{"PLUGIN_DEBUG"},
+			Hidden:  true,
 		},
 	}
 

@@ -4,7 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -24,6 +26,7 @@ type Config struct {
 	Priority,
 	Actions,
 	Tags string
+	Debug bool
 }
 
 type plugin struct {
@@ -32,6 +35,13 @@ type plugin struct {
 }
 
 func (p *plugin) Run() error {
+	if p.config.Debug {
+		for _, v := range os.Environ() {
+			log.Print(v)
+		}
+		log.Println("================================================================================")
+	}
+
 	req, err := createRequest(p.config)
 	if err != nil {
 		return err
