@@ -2,6 +2,10 @@
 
 # woodpecker-ntfy
 
+<a href="https://codeberg.org/l-x/woodpecker-ntfy">
+    <img alt="Get it on Codeberg" src="https://get-it-on.codeberg.org/get-it-on-white-on-black.png" height="60">
+</a>
+
 A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
 ## Configuration
