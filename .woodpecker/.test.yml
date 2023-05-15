@@ -1,9 +1,17 @@
 when:
   event: [push, pull_request]
 pipeline:
-  test:
+  tests:
     image: golang:1.20.3
     group: test
     commands:
       - go build
       - go test
+  success:
+    when:
+      status: success
+    image: codeberg.org/l-x/woodpecker-ntfy
+  failure:
+    when:
+      status: failure
+    image: codeberg.org/l-x/woodpecker-ntfy
