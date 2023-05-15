@@ -1,0 +1,9 @@
+when:
+  event: tag
+  branch: main
+pipeline:
+  release:
+    image: goreleaser/goreleaser
+    commands:
+      - goreleaser release
+    secrets: [goreleaser]
