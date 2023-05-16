@@ -18,6 +18,7 @@ func run(c *cli.Context) error {
 		Priority: c.String("priority"),
 		Actions:  c.String("actions"),
 		Click:    c.String("click"),
+		Icon:     c.String("icon"),
 		Tags:     c.String("tags"),
 		Message:  c.String("message"),
 		Debug:    c.Bool("debug"),
