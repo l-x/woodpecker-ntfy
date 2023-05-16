@@ -2,7 +2,6 @@ variables:
   - &golang_image 'golang:1.20.3'
   - &ntfy_image 'codeberg.org/l-x/woodpecker-ntfy:latest'
   - &ntfy_url 'https://push.pnyhf.eu/woodpecker-ntfy'
-  - &ntfy_tags '${CI_BUILD_EVENT},${CI_REPO_NAME}'
   
 when:
   event: [push, pull_request]
@@ -21,12 +20,12 @@ pipeline:
       url: *ntfy_url
       token:
         from_secret: ntfy
-      tags: tada,&ntfy_tags
+      tags: ${CI_BUILD_EVENT},${CI_REPO_NAME},tada
       title: Tests for ${CI_REPO} succeeded
       message: |
         Author: ${CI_COMMIT_AUTHOR}
         Branch: ${CI_COMMIT_BRANCH}
-        Commit message: ${CI_COMMIT_MESSAGE}}
+        Commit message: ${CI_COMMIT_MESSAGE}
   notify failure:
     when:
       status: failure
@@ -36,9 +35,9 @@ pipeline:
       token:
         from_secret: ntfy
       priority: urgent
-      tags: rotating_light,skull,&ntfy_tags
+      tags: ${CI_BUILD_EVENT},${CI_REPO_NAME},skull
       title: Tests for ${CI_REPO} failed
       message: |
         Author: ${CI_COMMIT_AUTHOR}
         Branch: ${CI_COMMIT_BRANCH}
-        Commit message: ${CI_COMMIT_MESSAGE}}
+        Commit message: ${CI_COMMIT_MESSAGE}
