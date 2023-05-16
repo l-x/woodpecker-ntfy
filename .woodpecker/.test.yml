@@ -15,8 +15,13 @@ pipeline:
       url: https://push.pnyhf.eu/woodpecker-ntfy
       token:
         from_secret: ntfy
-      tags: computer,tada
-      title: Tests for ${CI_REPO_NAME} succeeded (${CI_BUILD_STATUS})
+      tags: computer,tada,${CI_BUILD_EVENT}
+      title: Tests for ${CI_REPO} succeeded
+      message: >
+        Author: ${CI_COMMIT_AUTHOR}
+        Branch: ${CI_COMMIT_BRANCH}
+        Commit message: ${CI_COMMIT_MESSAGE}}
+        ${CI_SYSTEM_LINK}
   notify failure:
     when:
       status: failure
@@ -26,5 +31,12 @@ pipeline:
       token:
         from_secret: ntfy
       priority: urgent
-      tags: computer,rotating_light,skull
-      title: Tests for ${CI_REPO_NAME} failed (${CI_BUILD_STATUS})
+      tags: computer,rotating_light,skull,${CI_BUILD_EVENT}
+      title: Tests for ${CI_REPO} failed
+      message: >
+        Author: ${CI_COMMIT_AUTHOR}
+        Branch: ${CI_COMMIT_BRANCH}
+        Commit message: ${CI_COMMIT_MESSAGE}}
+        ${CI_SYSTEM_LINK}
+
+
