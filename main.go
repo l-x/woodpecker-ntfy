@@ -81,9 +81,8 @@ func createApp() *cli.App {
 		},
 		&cli.BoolFlag{
 			Name:    "debug",
-			Usage:   "output defined environment varialbles - MAY EXPOSE CREDENTIALS!!!",
+			Usage:   `output environment variables, raw request and response - DO NOT USE IN PRODUCTION, THIS WILL EXPOSE YOUR NTFY ACCESS TOKEN!`,
 			EnvVars: []string{"PLUGIN_DEBUG"},
-			Hidden:  true,
 		},
 	}
 

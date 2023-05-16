@@ -4,13 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 )
 
-var client httpClient = http.DefaultClient
+var (
+	client httpClient  = http.DefaultClient
+	debug  *log.Logger = log.New(ioutil.Discard, "DEBUG ", log.Ldate+log.Ltime)
+)
 
 type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
@@ -36,11 +40,13 @@ type plugin struct {
 
 func (p *plugin) Run() error {
 	if p.config.Debug {
+		debug.SetOutput(os.Stderr)
 		for _, v := range os.Environ() {
-			log.Print(v)
+			debug.Print(v)
 		}
-		log.Println("================================================================================")
 	}
+
+	debug.Printf("Request: %+v", p.config)
 
 	req, err := createRequest(p.config)
 	if err != nil {
@@ -59,9 +65,13 @@ func (p *plugin) Run() error {
 		return err
 	}
 
+	debug.Printf("Response: %s %s", res.Status, body)
+
 	if res.StatusCode != http.StatusOK {
 		return errors.New(string(body))
 	}
+
+	log.Printf("Notification successfully sent to %s", p.config.URL)
 
 	return nil
 }
