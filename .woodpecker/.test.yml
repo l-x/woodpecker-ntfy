@@ -6,7 +6,7 @@ pipeline:
     group: test
     commands:
       - go build
-      - go test
+      - go test . plugin
   notify success:
     when:
       status: success
@@ -15,6 +15,8 @@ pipeline:
       url: https://push.pnyhf.eu/woodpecker-ntfy
       token:
         from_secret: ntfy
+      tags: computer,tada
+      title: Tests for ${CI_REPO_NAME} succeeded (${CI_BUILD_STATUS})
   notify failure:
     when:
       status: failure
@@ -23,3 +25,6 @@ pipeline:
       url: https://push.pnyhf.eu/woodpecker-ntfy
       token:
         from_secret: ntfy
+      priority: urgent
+      tags: computer,rotating_light,skull
+      title: Tests for ${CI_REPO_NAME} failed (${CI_BUILD_STATUS})
