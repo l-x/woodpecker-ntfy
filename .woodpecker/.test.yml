@@ -11,7 +11,8 @@ pipeline:
     group: test
     commands:
       - go build
-      - go test . plugin
+      - go test -v ./*.go
+      - go test -v plugin/*.go
   notify success:
     when:
       status: success

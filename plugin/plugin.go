@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +12,7 @@ import (
 
 var (
 	client httpClient  = http.DefaultClient
-	debug  *log.Logger = log.New(ioutil.Discard, "DEBUG ", log.Ldate+log.Ltime)
+	debug  *log.Logger = log.New(io.Discard, "DEBUG ", log.Ldate+log.Ltime)
 )
 
 type httpClient interface {
