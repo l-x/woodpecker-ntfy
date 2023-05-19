@@ -28,6 +28,7 @@ type Config struct {
 	Icon,
 	Priority,
 	Actions,
+	Email,
 	Tags string
 	Debug bool
 }
@@ -112,6 +113,7 @@ func createRequest(c *Config) (*http.Request, error) {
 		"Priority": c.Priority,
 		"Actions":  c.Actions,
 		"Tags":     c.Tags,
+		"Email":    c.Email,
 	})
 
 	return req, nil

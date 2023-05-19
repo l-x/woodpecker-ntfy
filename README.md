@@ -22,6 +22,7 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `tags`     | Tags and Emojis [^tags-emojis]                                 | none                              |
 | `message`  | Notification Body                                              | none                              |
 
+
 ## Example
 
 ```yaml
@@ -54,3 +55,4 @@ pipeline:
 [^click-action]: https://docs.ntfy.sh/publish/#click-action
 [^icons]: https://docs.ntfy.sh/publish/#icons
 [^tags-emojis]: https://docs.ntfy.sh/publish/#tags-emojis
+[^e-mail-notifications]: https://docs.ntfy.sh/publish/#e-mail-notifications

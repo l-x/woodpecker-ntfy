@@ -21,6 +21,7 @@ func run(c *cli.Context) error {
 		Icon:     c.String("icon"),
 		Tags:     c.String("tags"),
 		Message:  c.String("message"),
+		Email:    c.String("email"),
 		Debug:    c.Bool("debug"),
 	}
 
@@ -79,6 +80,11 @@ func createApp() *cli.App {
 			Name:    "message",
 			Usage:   "notification message body",
 			EnvVars: []string{"PLUGIN_MESSAGE"},
+		},
+		&cli.StringFlag{
+			Name:    "email",
+			Usage:   "email to forward the notification to",
+			EnvVars: []string{"PLUGIN_EMAIL"},
 		},
 		&cli.BoolFlag{
 			Name:    "debug",
