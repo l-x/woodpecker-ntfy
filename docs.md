@@ -26,7 +26,7 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `tags`     | Tags and Emojis [^tags-emojis]                                         | none                              |
 | `message`  | Notification Body                                                      | none                              |
 | `email`    | E-mail to which the message is to be forwarded [^e-mail-notifications] | none                              |
-| `attach`   | Url to file to be attached [^attach-file-from-a-url]                   | none                              |
+| `attach`   | Url for file to be attached [^attach-file-from-a-url]                  | none                              |
 
 
 ## Example
