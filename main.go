@@ -22,6 +22,7 @@ func run(c *cli.Context) error {
 		Tags:     c.String("tags"),
 		Message:  c.String("message"),
 		Email:    c.String("email"),
+		Attach:   c.String("attach"),
 		Debug:    c.Bool("debug"),
 	}
 
