@@ -23,6 +23,7 @@ func run(c *cli.Context) error {
 		Message:  c.String("message"),
 		Email:    c.String("email"),
 		Attach:   c.String("attach"),
+		Call:     c.String("call"),
 		Debug:    c.Bool("debug"),
 	}
 
@@ -91,6 +92,11 @@ func createApp() *cli.App {
 			Name:    "attach",
 			Usage:   "public file url to attach",
 			EnvVars: []string{"PLUGIN_ATTACH"},
+		},
+		&cli.StringFlag{
+			Name:    "call",
+			Usage:   "phone number to send voice message to",
+			EnvVars: []string{"PLUGIN_CALL"},
 		},
 		&cli.BoolFlag{
 			Name:    "debug",

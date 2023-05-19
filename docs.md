@@ -27,6 +27,7 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `message`  | Notification Body                                                      | none                              |
 | `email`    | E-mail to which the message is to be forwarded [^e-mail-notifications] | none                              |
 | `attach`   | Url for file to be attached [^attach-file-from-a-url]                  | none                              |
+| `call`     | Phone number to send voice message to [^phone-calls] (ntfy >= 2.5.0)   | none                              |
 
 
 ## Example
