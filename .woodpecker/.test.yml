@@ -4,7 +4,7 @@ variables:
   - &ntfy_url 'https://push.pnyhf.eu/woodpecker-ntfy'
   
 when:
-  event: [push, pull_request]
+  event: push
 pipeline:
   tests:
     image: *golang_image
