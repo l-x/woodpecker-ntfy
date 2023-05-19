@@ -10,18 +10,19 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
 ## Configuration
 
-| Name       | Description                                                    | Default                           |
-| ---------- | -------------------------------------------------------------- | --------------------------------- |
-| `url`      | Url (including the topic) to send the notification to          | `https://ntfy.sh/woodpecker-ntfy` |
-| `token`    | Authentication token for write-protected topics [^bearer-auth] | none                              |
-| `title`    | Notification Title [^message-title]                            | none                              |
-| `priority` | Notification Priority [^message-priority]                      | none                              |
-| `actions`  | Action Buttons [^defining-actions]                             | none                              |
-| `click`    | Click Action [^click-action]                                   | `CI_BUILD_LINK`                   |
-| `icon`     | Message Icon [^icons]                                          | `CI_COMMIT_AUTHOR_AVATAR`         |
-| `tags`     | Tags and Emojis [^tags-emojis]                                 | none                              |
-| `message`  | Notification Body                                              | none                              |
-
+| Name       | Description                                                            | Default                           |
+| ---------- | ---------------------------------------------------------------------- | --------------------------------- |
+| `url`      | Url (including the topic) to send the notification to                  | `https://ntfy.sh/woodpecker-ntfy` |
+| `token`    | Authentication token for write-protected topics [^bearer-auth]         | none                              |
+| `title`    | Notification Title [^message-title]                                    | none                              |
+| `priority` | Notification Priority [^message-priority]                              | none                              |
+| `actions`  | Action Buttons [^defining-actions]                                     | none                              |
+| `click`    | Click Action [^click-action]                                           | `CI_BUILD_LINK`                   |
+| `icon`     | Message Icon [^icons]                                                  | `CI_COMMIT_AUTHOR_AVATAR`         |
+| `tags`     | Tags and Emojis [^tags-emojis]                                         | none                              |
+| `message`  | Notification Body                                                      | none                              |
+| `email`    | E-mail to which the message is to be forwarded [^e-mail-notifications] | none                              |
+| `attach`   | Url to file to be attached [^attach-file-from-a-url]                   | none                              |
 
 ## Example
 
@@ -56,3 +57,4 @@ pipeline:
 [^icons]: https://docs.ntfy.sh/publish/#icons
 [^tags-emojis]: https://docs.ntfy.sh/publish/#tags-emojis
 [^e-mail-notifications]: https://docs.ntfy.sh/publish/#e-mail-notifications
+[^attach-file-from-a-url]: https://docs.ntfy.sh/publish/#attach-file-from-a-url

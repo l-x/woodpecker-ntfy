@@ -86,6 +86,11 @@ func createApp() *cli.App {
 			Usage:   "email to forward the notification to",
 			EnvVars: []string{"PLUGIN_EMAIL"},
 		},
+		&cli.StringFlag{
+			Name:    "attach",
+			Usage:   "public file url to attach",
+			EnvVars: []string{"PLUGIN_ATTACH"},
+		},
 		&cli.BoolFlag{
 			Name:    "debug",
 			Usage:   `output environment variables, raw request and response - DO NOT USE IN PRODUCTION, THIS WILL EXPOSE YOUR NTFY ACCESS TOKEN!`,

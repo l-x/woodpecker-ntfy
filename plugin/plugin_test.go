@@ -19,6 +19,7 @@ func TestRun(t *testing.T) {
 		Actions:  "the actions",
 		Tags:     "the,notification,tags",
 		Email:    "me@example.com",
+		Attach:   "https://att.achme.nt/url",
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
@@ -31,6 +32,7 @@ func TestRun(t *testing.T) {
 		assert.Equal(t, req.Header.Get("Actions"), testConfig.Actions)
 		assert.Equal(t, req.Header.Get("Tags"), testConfig.Tags)
 		assert.Equal(t, req.Header.Get("Email"), testConfig.Email)
+		assert.Equal(t, req.Header.Get("Attach"), testConfig.Attach)
 
 		rw.Write([]byte(`OK`))
 	}))
@@ -54,6 +56,7 @@ func TestRunWithDefaults(t *testing.T) {
 		assert.Equal(t, req.Header.Get("Actions"), testConfig.Actions)
 		assert.Equal(t, req.Header.Get("Tags"), testConfig.Tags)
 		assert.Equal(t, req.Header.Get("Email"), testConfig.Email)
+		assert.Equal(t, req.Header.Get("Attach"), testConfig.Attach)
 
 		rw.Write([]byte(`OK`))
 	}))
