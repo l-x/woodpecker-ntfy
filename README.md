@@ -12,18 +12,18 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
 | Name       | Description                                                            | Default                           |
 | ---------- | ---------------------------------------------------------------------- | --------------------------------- |
-| `url`      | Url (including the topic) to send the notification to                  | `https://ntfy.sh/woodpecker-ntfy` |
-| `token`    | Authentication token for write-protected topics [^bearer-auth]         | none                              |
+| `message`  | Notification Body                                                      | none                              |
 | `title`    | Notification Title [^message-title]                                    | none                              |
 | `priority` | Notification Priority [^message-priority]                              | none                              |
+| `url`      | Url (including the topic) to send the notification to                  | `https://ntfy.sh/woodpecker-ntfy` |
+| `token`    | Authentication token for write-protected topics [^bearer-auth]         | none                              |
 | `actions`  | Action Buttons [^defining-actions]                                     | none                              |
-| `click`    | Click Action [^click-action]                                           | `CI_BUILD_LINK`                   |
-| `icon`     | Message Icon [^icons]                                                  | `CI_COMMIT_AUTHOR_AVATAR`         |
-| `tags`     | Tags and Emojis [^tags-emojis]                                         | none                              |
-| `message`  | Notification Body                                                      | none                              |
-| `email`    | E-mail to which the message is to be forwarded [^e-mail-notifications] | none                              |
 | `attach`   | Url for file to be attached [^attach-file-from-a-url]                  | none                              |
 | `call`     | Phone number to send voice message to [^phone-calls] (ntfy >= 2.5.0)   | none                              |
+| `click`    | Click Action [^click-action]                                           | `CI_BUILD_LINK`                   |
+| `email`    | E-mail to which the message is to be forwarded [^e-mail-notifications] | none                              |
+| `icon`     | Message Icon [^icons]                                                  | `CI_COMMIT_AUTHOR_AVATAR`         |
+| `tags`     | Tags and Emojis [^tags-emojis]                                         | none                              |
 
 ## Example
 
