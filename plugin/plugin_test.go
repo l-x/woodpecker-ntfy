@@ -18,6 +18,9 @@ func TestRun(t *testing.T) {
 		Priority: "alert",
 		Actions:  "the actions",
 		Tags:     "the,notification,tags",
+		Email:    "me@example.com",
+		Attach:   "https://att.achme.nt/url",
+		Call:     "+1234567890",
 	}
 
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
@@ -29,6 +32,9 @@ func TestRun(t *testing.T) {
 		assert.Equal(t, req.Header.Get("Priority"), testConfig.Priority)
 		assert.Equal(t, req.Header.Get("Actions"), testConfig.Actions)
 		assert.Equal(t, req.Header.Get("Tags"), testConfig.Tags)
+		assert.Equal(t, req.Header.Get("Email"), testConfig.Email)
+		assert.Equal(t, req.Header.Get("Attach"), testConfig.Attach)
+		assert.Equal(t, req.Header.Get("Call"), testConfig.Call)
 
 		rw.Write([]byte(`OK`))
 	}))
@@ -51,6 +57,9 @@ func TestRunWithDefaults(t *testing.T) {
 		assert.Equal(t, req.Header.Get("Priority"), testConfig.Priority)
 		assert.Equal(t, req.Header.Get("Actions"), testConfig.Actions)
 		assert.Equal(t, req.Header.Get("Tags"), testConfig.Tags)
+		assert.Equal(t, req.Header.Get("Email"), testConfig.Email)
+		assert.Equal(t, req.Header.Get("Attach"), testConfig.Attach)
+		assert.Equal(t, req.Header.Get("Call"), testConfig.Call)
 
 		rw.Write([]byte(`OK`))
 	}))

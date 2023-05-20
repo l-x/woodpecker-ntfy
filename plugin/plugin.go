@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -13,7 +12,7 @@ import (
 
 var (
 	client httpClient  = http.DefaultClient
-	debug  *log.Logger = log.New(ioutil.Discard, "DEBUG ", log.Ldate+log.Ltime)
+	debug  *log.Logger = log.New(io.Discard, "DEBUG ", log.Ldate+log.Ltime)
 )
 
 type httpClient interface {
@@ -29,6 +28,9 @@ type Config struct {
 	Icon,
 	Priority,
 	Actions,
+	Email,
+	Attach,
+	Call,
 	Tags string
 	Debug bool
 }
@@ -113,6 +115,9 @@ func createRequest(c *Config) (*http.Request, error) {
 		"Priority": c.Priority,
 		"Actions":  c.Actions,
 		"Tags":     c.Tags,
+		"Email":    c.Email,
+		"Attach":   c.Attach,
+		"Call":     c.Call,
 	})
 
 	return req, nil

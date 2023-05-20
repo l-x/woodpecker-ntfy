@@ -4,14 +4,15 @@ variables:
   - &ntfy_url 'https://push.pnyhf.eu/woodpecker-ntfy'
   
 when:
-  event: [push, pull_request]
+  event: push
 pipeline:
   tests:
     image: *golang_image
     group: test
     commands:
       - go build
-      - go test . plugin
+      - go test -v ./*.go
+      - go test -v plugin/*.go
   notify success:
     when:
       status: success

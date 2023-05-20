@@ -1,3 +1,4 @@
 .forgejo_token
-dist/
+dist
 cover.out
+woodpecker-ntfy
