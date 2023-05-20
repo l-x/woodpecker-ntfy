@@ -6,4 +6,4 @@ pipeline:
     image: goreleaser/goreleaser
     commands:
       - goreleaser release
-    secrets: [goreleaser]
+    secrets: [ gitea_token ]
