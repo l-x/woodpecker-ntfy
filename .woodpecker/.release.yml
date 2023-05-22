@@ -23,7 +23,7 @@ pipeline:
       platforms: linux/amd64
       repo: codeberg.org/${CI_REPO_OWNER}/woodpecker-ntfy
       registry: codeberg.org
-      tags: next
+      tag: next
       username: ${CI_REPO_OWNER}
       password:
         from_secret: gitea_token
