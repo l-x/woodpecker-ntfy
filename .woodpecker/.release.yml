@@ -1,9 +1,14 @@
 when:
-  event: tag
-  branch: main
+  event: [tag, deployment]
+  branch: ${CI_REPO_DEFAULT_BRANCH}
 pipeline:
-  release:
-    image: goreleaser/goreleaser
-    commands:
-      - goreleaser release
-    secrets: [ gitea_token ]
+  publish:
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      platforms: linux/amd64
+      repo: codeberg.org/${CI_REPO_OWNER}/woodpecker-ntfy
+      registry: codeberg.org
+      dry-run: true
+      username: ${CI_REPO_OWNER}
+      password:
+        from_secret: gitea_token
