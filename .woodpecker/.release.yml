@@ -1,7 +1,7 @@
 when:
   branch: ${CI_REPO_DEFAULT_BRANCH}
 pipeline:
-  publish stable:
+  publish:
     when:
       event: tag
     image: woodpeckerci/plugin-docker-buildx
@@ -10,18 +10,6 @@ pipeline:
       registry: codeberg.org
       tags: latest
       auto_tag: true
-      username: ${CI_REPO_OWNER}
-      password:
-        from_secret: gitea_token
-
-  publish next:
-    when:
-      event: push
-    image: woodpeckerci/plugin-docker-buildx
-    settings:
-      repo: codeberg.org/${CI_REPO_OWNER}/woodpecker-ntfy
-      registry: codeberg.org
-      tag: next
       username: ${CI_REPO_OWNER}
       password:
         from_secret: gitea_token
