@@ -1,14 +1,25 @@
-FROM golang:1.20.4-alpine3.18 AS builder
+# syntax=docker/dockerfile:1
+ARG GO_VERSION=1.20
+
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine AS base
 
 WORKDIR /app
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=bind,source=go.mod,target=go.mod \
+    --mount=type=bind,source=go.sum,target=go.sum \
+    go mod download -x
 
-COPY go.mod go.sum ./
-RUN go mod download
+# ----------------------------------------------------------------------
 
-COPY main.go ./
-COPY plugin/*.go ./plugin/
+FROM base AS builder
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /woodpecker-ntfy
+ARG TARGETOS
+ARG TARGETARCH
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=bind,target=. \
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /woodpecker-ntfy
+
+# ----------------------------------------------------------------------
 
 FROM scratch
 
