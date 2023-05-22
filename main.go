@@ -1,5 +1,7 @@
 package main
 
+//go:generate sh tools/docs.sh
+
 import (
 	"log"
 	"os"

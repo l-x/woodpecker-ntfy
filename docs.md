@@ -29,7 +29,6 @@ A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 | `icon`     | Message Icon [^icons]                                                  | `CI_COMMIT_AUTHOR_AVATAR`         |
 | `tags`     | Tags and Emojis [^tags-emojis]                                         | none                              |
 
-
 ## Example
 
 ```yaml

@@ -1,10 +1,10 @@
 [![status-badge](https://ci.codeberg.org/api/badges/l-x/woodpecker-ntfy/status.svg)](https://ci.codeberg.org/l-x/woodpecker-ntfy)
 
-# woodpecker-ntfy
-
 <a href="https://codeberg.org/l-x/woodpecker-ntfy">
     <img alt="Get it on Codeberg" src="https://get-it-on.codeberg.org/get-it-on-white-on-black.png" height="60">
 </a>
+
+# woodpecker-ntfy
 
 A [Woodpecker] plugin to send notifications to a [ntfy.sh] instance.
 
