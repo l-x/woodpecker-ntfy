@@ -6,7 +6,6 @@ pipeline:
       event: tag
     image: woodpeckerci/plugin-docker-buildx
     settings:
-      platforms: linux/amd64
       repo: codeberg.org/${CI_REPO_OWNER}/woodpecker-ntfy
       registry: codeberg.org
       tags: latest
@@ -19,7 +18,6 @@ pipeline:
       event: push
     image: woodpeckerci/plugin-docker-buildx
     settings:
-      platforms: linux/amd64
       repo: codeberg.org/${CI_REPO_OWNER}/woodpecker-ntfy
       registry: codeberg.org
       tag: next
