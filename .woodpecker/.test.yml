@@ -5,7 +5,7 @@ variables:
   
 when:
   event: push
-pipeline:
+steps:
   tests:
     image: *golang_image
     group: test

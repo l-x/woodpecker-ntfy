@@ -2,7 +2,7 @@ when:
   event: tag
   branch: ${CI_REPO_DEFAULT_BRANCH}
 
-pipeline:
+steps:
   publish:
     image: woodpeckerci/plugin-docker-buildx
     settings:
