@@ -1,7 +1,7 @@
 ---
 name: ntfy
 description: plugin to send notifications to a ntfy.sh instance
-authors: l-x
+author: l-x
 tags: [trigger, notify]
 containerImage: codeberg.org/l-x/woodpecker-ntfy
 containerImageUrl: https://codeberg.org/l-x/-/packages/container/woodpecker-ntfy/latest
