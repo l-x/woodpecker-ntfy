@@ -13,3 +13,4 @@ steps:
       username: ${CI_REPO_OWNER}
       password:
         from_secret: gitea_token
+  
